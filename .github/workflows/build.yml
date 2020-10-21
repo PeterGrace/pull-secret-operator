@@ -35,9 +35,8 @@ jobs:
           toolchain: nightly
           args: --release
       - name: Push to Docker Hub
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v2
         with:
-          file: ./Dockerfile
           username: petergrace
           password: ${{ secrets.HUB_DOCKER_PAT }}
           repository: petergrace/pull-secret-operator
