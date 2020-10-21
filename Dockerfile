@@ -11,7 +11,6 @@ RUN chmod a+x /tini \
 
 ENTRYPOINT ["/tini", "--"]
 
-# Kubuntu uses snap for docker, which causes all sorts of weirdness when trying to copy from filesystem
 COPY target/release/pull-secret-operator /app/pull-secret-operator
 ADD docker/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
