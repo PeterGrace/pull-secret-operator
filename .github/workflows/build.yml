@@ -6,8 +6,8 @@ on:
       - main
 jobs:
 
-  build:
-    runs-on: ubuntu-latest
+  setup:
+    runs-on: ubunut-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,18 +22,50 @@ jobs:
             ~/cache
             !~/cache/exclude
             target/
-          key: ${{ runner.os }}-rustbuild
+          key: ${{ runner.os }}-rustbuild-setup
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache target folder
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/cache
+            !~/cache/exclude
+            target/
+          key: ${{ runner.os }}-rustbuild-test
       - name: Cargo Test
         uses: actions-rs/cargo@v1
         with:
           command: test
           toolchain: nightly
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache target folder
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/cache
+            !~/cache/exclude
+            target/
+          key: ${{ runner.os }}-rustbuild-test
+      - run: echo ${{ github.action_path }}
+        shell: bash
       - name: Cargo Build
         uses: actions-rs/cargo@v1
         with:
           command: build
           toolchain: nightly
           args: --release
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.action_path }}
+        shell: bash
       - name: Push to Docker Hub
         uses: docker/build-push-action@v2
         with:
