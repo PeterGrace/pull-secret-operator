@@ -1,0 +1,10 @@
+apiVersion: vsix.me/v1
+kind: PullSecret
+metadata:
+  name: example-pull-secret
+spec:
+  source:
+    namespace: jenkins
+    name: dreg-registry
+  targetNamespaces:
+    - default

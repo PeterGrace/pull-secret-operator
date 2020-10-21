@@ -1,0 +1,41 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache target folder
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/cache
+            !~/cache/exclude
+            target/
+          key: ${{ runner.os }}-rustbuild
+          #docker run --rm --user "$(shell id -u)":"$(shell id -g)" -v $(shell pwd):/usr/src/myapp -w /usr/src/myapp rustlang/rust:nightly cargo build --release
+      - name: build
+        container:
+  build:
+    needs: setup
+    container:
+      image: rustlang/rust:nightly
+      volumes:
+        - ${PWD}:/src
+      options: cargo build --release
+  package:
+    needs: setup
+    steps:
+      - name: Push to Docker Hub
+        uses: docker/build-push-action@v1
+        with:
+          username: petergrace
+          password: ${{ secrets.HUB_DOCKER_PAT }}
+          repository: petergrace/pull-secret-operator
+          tag_with_ref: true
