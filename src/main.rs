@@ -3,8 +3,6 @@
 mod crd_watcher;
 mod metrics;
 mod pull_secret;
-#[cfg(test)]
-mod tests;
 
 use crate::crd_watcher::create_and_start_watchers;
 use crate::metrics::APP_INFO;
