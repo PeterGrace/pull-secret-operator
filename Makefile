@@ -9,7 +9,7 @@ build:
 
 bump:
 	cargo bump -g
-	TAG=$(shell git tag)
+	TAG=$(shell git describe --abbrev=0)
 	yq w -i chart/pull-secret-operator/Chart.yaml appVersion $(TAG)
 	git add chart/pull-secret-operator/Chart.yaml
 	git commit -m "synchronizing chart appVer with current tag: $(TAG)"
