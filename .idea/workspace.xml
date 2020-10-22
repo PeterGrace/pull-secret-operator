@@ -23,9 +23,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e9375b81-aa61-499d-960a-f21cfdbdf218" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.rs" beforeDir="false" afterPath="$PROJECT_DIR$/build.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/metrics.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/metrics.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/crd_watcher.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/crd_watcher.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +124,7 @@
       <workItem from="1603190809085" duration="2609000" />
       <workItem from="1603193993289" duration="3950000" />
       <workItem from="1603283642342" duration="9045000" />
-      <workItem from="1603295993803" duration="15989000" />
+      <workItem from="1603295993803" duration="20196000" />
     </task>
     <servers />
   </component>
@@ -164,26 +163,26 @@
       <screen x="0" y="0" width="1920" height="981" />
     </state>
     <state x="747" y="262" key="FileChooserDialogImpl/0.0.1920.981@0.0.1920.981" timestamp="1603191009136" />
-    <state width="1874" height="314" key="GridCell.Tab.0.bottom" timestamp="1603363753443">
+    <state width="1874" height="248" key="GridCell.Tab.0.bottom" timestamp="1603409614228">
       <screen x="0" y="0" width="1920" height="981" />
     </state>
     <state width="1874" height="274" key="GridCell.Tab.0.bottom/0.0.1920.1044@0.0.1920.1044" timestamp="1603197257204" />
-    <state width="1874" height="314" key="GridCell.Tab.0.bottom/0.0.1920.981@0.0.1920.981" timestamp="1603363753443" />
-    <state width="1874" height="314" key="GridCell.Tab.0.center" timestamp="1603363753440">
+    <state width="1874" height="248" key="GridCell.Tab.0.bottom/0.0.1920.981@0.0.1920.981" timestamp="1603409614228" />
+    <state width="1874" height="248" key="GridCell.Tab.0.center" timestamp="1603409614226">
       <screen x="0" y="0" width="1920" height="981" />
     </state>
     <state width="1874" height="274" key="GridCell.Tab.0.center/0.0.1920.1044@0.0.1920.1044" timestamp="1603197257203" />
-    <state width="1874" height="314" key="GridCell.Tab.0.center/0.0.1920.981@0.0.1920.981" timestamp="1603363753440" />
-    <state width="1874" height="314" key="GridCell.Tab.0.left" timestamp="1603363753438">
+    <state width="1874" height="248" key="GridCell.Tab.0.center/0.0.1920.981@0.0.1920.981" timestamp="1603409614226" />
+    <state width="1874" height="248" key="GridCell.Tab.0.left" timestamp="1603409614225">
       <screen x="0" y="0" width="1920" height="981" />
     </state>
     <state width="1874" height="274" key="GridCell.Tab.0.left/0.0.1920.1044@0.0.1920.1044" timestamp="1603197257202" />
-    <state width="1874" height="314" key="GridCell.Tab.0.left/0.0.1920.981@0.0.1920.981" timestamp="1603363753438" />
-    <state width="1874" height="314" key="GridCell.Tab.0.right" timestamp="1603363753442">
+    <state width="1874" height="248" key="GridCell.Tab.0.left/0.0.1920.981@0.0.1920.981" timestamp="1603409614225" />
+    <state width="1874" height="248" key="GridCell.Tab.0.right" timestamp="1603409614226">
       <screen x="0" y="0" width="1920" height="981" />
     </state>
     <state width="1874" height="274" key="GridCell.Tab.0.right/0.0.1920.1044@0.0.1920.1044" timestamp="1603197257204" />
-    <state width="1874" height="314" key="GridCell.Tab.0.right/0.0.1920.981@0.0.1920.981" timestamp="1603363753442" />
+    <state width="1874" height="248" key="GridCell.Tab.0.right/0.0.1920.981@0.0.1920.981" timestamp="1603409614226" />
     <state width="1874" height="314" key="GridCell.Tab.1.bottom" timestamp="1603363753449">
       <screen x="0" y="0" width="1920" height="981" />
     </state>
@@ -200,6 +199,10 @@
       <screen x="0" y="0" width="1920" height="981" />
     </state>
     <state width="1874" height="314" key="GridCell.Tab.1.right/0.0.1920.981@0.0.1920.981" timestamp="1603363753447" />
+    <state x="754" y="174" key="RollbackChangesDialog" timestamp="1603408185022">
+      <screen x="0" y="0" width="1920" height="981" />
+    </state>
+    <state x="754" y="174" key="RollbackChangesDialog/0.0.1920.981@0.0.1920.981" timestamp="1603408185022" />
     <state x="461" y="134" key="SettingsEditor" timestamp="1603195276660">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
@@ -211,7 +214,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.rs</url>
-          <line>59</line>
+          <line>61</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
