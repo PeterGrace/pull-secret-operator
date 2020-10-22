@@ -7,4 +7,6 @@ spec:
     namespace: jenkins
     name: dreg-registry
   targetNamespaces:
-    - default
+    - mayan
+    - monitoring
+    - pso

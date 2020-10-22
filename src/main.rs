@@ -22,7 +22,7 @@ static COMPRESSED_DEPENDENCY_LIST: &[u8] = auditable::inject_dependency_list!();
 async fn main() -> anyhow::Result<()> {
     std::env::set_var("RUST_LOG", "info,kube=info");
     let metrics_port: u16;
-    match std::env::var("HERALD_METRICS_PORT") {
+    match std::env::var("METRICS_PORT") {
         Ok(val) => metrics_port = val.parse()?,
         Err(e) => metrics_port = 9898,
     }
