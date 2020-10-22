@@ -1,14 +1,25 @@
 all: build
 
-build: VER=$(shell git rev-parse --short HEAD)
+build: TAG=$(shell git tag)
+build: HASH=$(shell git rev-parse --short HEAD)
 build:
 	docker run --rm --user "$(shell id -u)":"$(shell id -g)" -v $(shell pwd):/usr/src/myapp -w /usr/src/myapp rustlang/rust:nightly cargo +nightly build 
-	docker build -t petergrace/pull-secret-operator:test .
+	docker build -t petergrace/pull-secret-operator:$(TAG) .
 
-gh-build: VER=$(shell git rev-parse --short HEAD)
+
+update: TAG=$(shell git tag)
+update:
+	yq w -i chart/pull-secret-operator/Chart.yaml appVersion $(TAG)
+	git add chart/pull-secret-operator/Chart.yaml
+	git commit -m "synchronizing chart appVer with current tag: $(TAG)"
+
+gh-build: TAG=$(shell git tag)
+gh-build: HASH=$(shell git rev-parse --short HEAD)
 gh-build:
 	cargo +nightly build --release
 	docker build -t petergrace/pull-secret-operator:$(VER) .
-	docker tag petergrace/pull-secret-operator:$(VER) petergrace/pull-secret-operator:latest 
-	docker push petergrace/pull-secret-operator:$(VER)
+	docker tag petergrace/pull-secret-operator:$(HASH) petergrace/pull-secret-operator:$(TAG)
+	docker tag petergrace/pull-secret-operator:$(HASH) petergrace/pull-secret-operator:latest 
+	docker push petergrace/pull-secret-operator:$(HASH)
+	docker push petergrace/pull-secret-operator:$(TAG)
 	docker push petergrace/pull-secret-operator:latest
