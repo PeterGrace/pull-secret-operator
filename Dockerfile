@@ -7,10 +7,15 @@ RUN apt-get -y update \
 
 ADD ${TINI_URL} /tini
 RUN chmod a+x /tini \
-    && mkdir -p /app
+    && mkdir -p /app \
+    && groupadd -g 10000 pso \
+    && useradd -u 10000 -g 10000 -s /bin/sh pso
 
 ENTRYPOINT ["/tini", "--"]
 
 COPY target/release/pull-secret-operator /app/pull-secret-operator
 ADD docker/entrypoint.sh /entrypoint.sh
+RUN chown -R pso.pso /app \
+ && chmod a+x /entrypoint.sh
+USER 10000
 CMD ["/entrypoint.sh"]
