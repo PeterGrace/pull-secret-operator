@@ -1567,7 +1567,7 @@ dependencies = [
 
 [[package]]
 name = "pull-secret-operator"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "anyhow",
  "auditable",
