@@ -34,6 +34,9 @@ jobs:
           command: build
           toolchain: nightly
           args: --release
+      - name: echo github path
+        run: echo ${{ github.action_path }}
+        shell: bash
       - name: Push to Docker Hub
         uses: docker/build-push-action@v2
         with:
