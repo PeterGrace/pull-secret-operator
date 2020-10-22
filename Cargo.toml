@@ -1,6 +1,6 @@
 [package]
 name = "pull-secret-operator"
-version = "0.1.6"
+version = "0.1.7"
 authors = ["Peter Grace <pete.grace@gmail.com>"]
 edition = "2018"
 
