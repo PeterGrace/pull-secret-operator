@@ -13,6 +13,7 @@ use std::collections::{BTreeMap, HashMap};
 use thiserror::Error;
 use tokio::select;
 use tokio::sync::mpsc::{channel, Sender};
+use tokio::time::{delay_for, Duration};
 
 const PULL_TYPE: &str = "kubernetes.io/dockerconfigjson";
 const NOT_NAMESPACED: &str = "not-namespaced";
@@ -29,6 +30,8 @@ pub enum PullSecretError {
     KubeError(#[from] kube::Error),
     #[error(transparent)]
     WatcherError(#[from] kube_runtime::watcher::Error),
+    #[error("We've retried too many times to watch Secret {0}/{1}; cancelling further watches until next object reload")]
+    TooManyRetries(String, String),
 }
 
 pub fn btree_to_string(input: BTreeMap<String, String>) -> String {
@@ -160,35 +163,51 @@ pub async fn create_watch_from_spec(input_obj: PullSecretSpec) -> Result<(), Pul
     let ns_secrets: Api<Secret> = Api::namespaced(client, &s_ns);
     let lp = ListParams::default().fields(format!("metadata.name={}", s_name).as_str());
     let mut w = watcher(ns_secrets.clone(), lp).boxed();
-    while let Some(watcher_status) = w.try_next().await? {
-        match watcher_status {
-            Event::Applied(s) => {
-                info!("applied: {}", Meta::name(&s));
-                let secret = ns_secrets.clone().get(Meta::name(&s).as_str()).await?;
-                copy_secret(secret, input_obj.target_namespaces.clone().unwrap()).await?;
-            }
-            Event::Deleted(s) => {
-                info!("deleted: {}", Meta::name(&s));
-                let secret = ns_secrets.clone().get(Meta::name(&s).as_str()).await?;
-                copy_secret(secret, input_obj.target_namespaces.clone().unwrap()).await?;
-            }
-            Event::Restarted(vs) => {
-                for s in vs {
-                    info!("restarted: {}", Meta::name(&s));
-                    if s.type_.clone().unwrap().ne(PULL_TYPE) {
-                        return Err(PullSecretError::InvalidType(
-                            Meta::namespace(&s).unwrap_or(NOT_NAMESPACED.to_string()),
-                            Meta::name(&s),
-                            s.type_.unwrap(),
-                        ));
+    let mut retry_count: i32 = 0;
+    loop {
+        while let watcher_try = w.try_next().await {
+            match watcher_try {
+                Ok(Some(watcher_status)) => match watcher_status {
+                    Event::Applied(s) => {
+                        info!("applied: {}", Meta::name(&s));
+                        let secret = ns_secrets.clone().get(Meta::name(&s).as_str()).await?;
+                        copy_secret(secret, input_obj.target_namespaces.clone().unwrap()).await?;
                     }
-                    let secret = ns_secrets.clone().get(Meta::name(&s).as_str()).await?;
-                    copy_secret(secret, input_obj.target_namespaces.clone().unwrap()).await?;
+                    Event::Deleted(s) => {
+                        info!("deleted: {}", Meta::name(&s));
+                        let secret = ns_secrets.clone().get(Meta::name(&s).as_str()).await?;
+                        copy_secret(secret, input_obj.target_namespaces.clone().unwrap()).await?;
+                    }
+                    Event::Restarted(vs) => {
+                        for s in vs {
+                            info!("restarted: {}", Meta::name(&s));
+                            if s.type_.clone().unwrap().ne(PULL_TYPE) {
+                                return Err(PullSecretError::InvalidType(
+                                    Meta::namespace(&s).unwrap_or(NOT_NAMESPACED.to_string()),
+                                    Meta::name(&s),
+                                    s.type_.unwrap(),
+                                ));
+                            }
+                            let secret = ns_secrets.clone().get(Meta::name(&s).as_str()).await?;
+                            copy_secret(secret, input_obj.target_namespaces.clone().unwrap())
+                                .await?;
+                        }
+                    }
+                },
+                Ok(None) => {
+                    return Err(PullSecretError::SourceError(s_ns, s_name));
+                }
+                Err(e) => {
+                    info!("retry {}:Received error: {}", retry_count, e);
+                    delay_for(Duration::from_secs(10)).await;
+                    retry_count += 1;
+                    if retry_count >= 30 {
+                        return Err(PullSecretError::TooManyRetries(s_ns, s_name));
+                    };
                 }
             }
         }
     }
-    Ok(())
 }
 
 pub async fn copy_secret(
