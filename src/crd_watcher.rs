@@ -8,9 +8,7 @@ use kube::{
 };
 use kube_runtime::watcher;
 use kube_runtime::watcher::Event;
-use log::{info, warn};
-use prometheus::HistogramVec;
-use serde_json::Value;
+use log::info;
 use std::collections::{BTreeMap, HashMap};
 use thiserror::Error;
 use tokio::select;
