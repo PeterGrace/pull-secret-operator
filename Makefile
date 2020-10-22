@@ -8,7 +8,7 @@ build:
 
 
 bump:
-	git pull origin/main
+	git pull origin main
 	cargo bump -g
 	$(eval TAG=`git describe --abbrev=0`)
 	yq w -i chart/pull-secret-operator/Chart.yaml appVersion $(TAG)
