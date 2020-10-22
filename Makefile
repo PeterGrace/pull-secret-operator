@@ -18,7 +18,7 @@ gh-build: TAG=$(shell git describe --abbrev=0)
 gh-build: HASH=$(shell git rev-parse --short HEAD)
 gh-build:
 	cargo +nightly build --release
-	docker build -t petergrace/pull-secret-operator:$(VER) .
+	docker build -t petergrace/pull-secret-operator:$(HASH) .
 	docker tag petergrace/pull-secret-operator:$(HASH) petergrace/pull-secret-operator:$(TAG)
 	docker tag petergrace/pull-secret-operator:$(HASH) petergrace/pull-secret-operator:latest 
 	docker push petergrace/pull-secret-operator:$(HASH)
