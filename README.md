@@ -2,8 +2,11 @@
 This operator will copy an identified dockerconfigjson-based secret from a source namespace to one or more destination namespaces
 
 ## How it works
-The operator sets up a series of watches on objects in the Kubernetes environment: PullSecrets and Secrets.  Given a named Secret object defined in the PullSecret spec, it will copy the secret data from that secret into a same-named secret in one or more namespaces that you specify.  Example:
+The operator sets up a series of watches on objects in the Kubernetes environment: `PullSecrets` and `Secrets`.
 
+Given a Secret object defined in the PullSecret spec, it will copy the secret to one or more namespaces.
+
+Example:
 ```
 apiVersion: vsix.me/v1
 kind: PullSecret
@@ -19,12 +22,18 @@ spec:
     - pso
 ```
 
-This above example will copy the secret named "dreg-registry" in the jenkins namespace, to secret objects in the "mayan", "monitoring", and "pso" namespaces.  The target secrets will be stripped of annotations and labels, but will retain the same data and type as their source.  In a future release, I may expand the spec to enable selective copying of labels and annotations.
+This example will copy the secret "dreg-registry" in the jenkins namespace, to the "mayan", "monitoring", and "pso" namespaces.  
 
-The system watches both the PullSecret and source Secret objects for changes.  If either object changes, it will ensure that the PullSecret's demands are fulfilled.
+The target secrets will be stripped of annotations and labels, but will retain the same data and type as their source.  
+In a future release, I may expand the spec to enable selective copying of labels and annotations.
+
+The system watches both the PullSecret and source Secret objects for changes.
+The operator will add or remove secrets from namespaces as the `PullSecret` changes, as well as update the value of the `secrets` if the source secrets change.
 
 ## How to install
-There is a helm chart in the charts/pull-secret-operator directory of this repository.  It will deploy the CRD and a Deployment spec, as well as setup very liberal RBAC rules that give it access to read and edit all secrets in your deployment.  I may adjust the chart to have configurable namespaces enabled in the RBAC at a later date.
+There is a helm chart in the charts/pull-secret-operator directory of this repository.
+It will deploy the CRD and a Deployment spec, as well as setup very liberal RBAC rules that give it access to read and edit all secrets in your deployment.
+I may adjust the chart to have configurable namespaces enabled in the RBAC at a later date.
 
 ## Speaking of RBAC, isn't this insecure?
 I wrote this tool because of the following concerns:
