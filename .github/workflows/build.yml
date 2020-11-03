@@ -31,9 +31,3 @@ jobs:
       - name: run makefile
         run: make gh-build
         shell: bash
-      - name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-         username: ${{ secrets.HUB_DOCKER_USERNAME }}
-         password: ${{ secrets.HUB_DOCKER_PAT }}
-         repository: petergrace/pull-secret-operator   
