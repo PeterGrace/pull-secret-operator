@@ -31,8 +31,14 @@ The system watches both the PullSecret and source Secret objects for changes.
 The operator will add or remove secrets from namespaces as the `PullSecret` changes, as well as update the value of the `secrets` if the source secrets change.
 
 ## How to install
+
+### Kustomize
+The kustomize folder contains a simple raw yaml deployment, generated using `helm template` and default values.
+
+### Helm
 There is a helm chart in the charts/pull-secret-operator directory of this repository.
 It will deploy the CRD and a Deployment spec, as well as setup very liberal RBAC rules that give it access to read and edit all secrets in your deployment.
+
 I may adjust the chart to have configurable namespaces enabled in the RBAC at a later date.
 
 ## Speaking of RBAC, isn't this insecure?
