@@ -24,7 +24,6 @@
     <list default="true" id="e9375b81-aa61-499d-960a-f21cfdbdf218" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/crd_watcher.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/crd_watcher.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,11 +96,6 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Cargo.Run" />
       <item itemvalue="Cargo.check" />
@@ -125,6 +119,8 @@
       <workItem from="1603193993289" duration="3950000" />
       <workItem from="1603283642342" duration="9045000" />
       <workItem from="1603295993803" duration="20196000" />
+      <workItem from="1606139758524" duration="613000" />
+      <workItem from="1606229407300" duration="18000" />
     </task>
     <servers />
   </component>
