@@ -1,5 +1,3 @@
-#![feature(decl_macro)]
-
 mod crd_watcher;
 mod metrics;
 mod pull_secret;
